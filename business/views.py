@@ -103,15 +103,15 @@ class SearchView(View):
     def get(self, request):
         # default values of the search
         query = ''
-        city = 0
+        locality = ''
         limit, offset = (10, 0)
 
         # get query params from request body
         if 'query' in request.GET:
             query = request.GET['query']
 
-        if 'locality' in request.GET and request.GET['locality'].isnumeric():
-            city = int(request.GET['locality'])
+        if 'locality' in request.GET:
+            locality = request.GET['locality']
 
         if 'limit' in request.GET and request.GET['limit'].isnumeric():
             limit = int(request.GET['limit'])
@@ -119,11 +119,13 @@ class SearchView(View):
         if 'offset' in request.GET and request.GET['offset'].isnumeric():
             offset = int(request.GET['offset'])
 
+        print('=>', request.GET)
+
         businesses = [model_to_dict(business) for business in
-            UsaRealEstate.objects.filter(name__contains = query, city__id = city)[offset:limit+1]
+            UsaRealEstate.objects.filter(name__contains = query, locality__contains = locality)[offset:offset+limit]
         ]
 
-        return JsonResponse({"success": True, "data": businesses})
+        return JsonResponse({"success": True, "data": businesses}, status=200)
 
 
 class LocalityView(View):
@@ -144,14 +146,14 @@ class LocalityView(View):
         if 'offset' in request.GET and request.GET['offset'].isnumeric():
             offset = int(request.GET['offset'])
 
-        localities = [self._serialize_cities(business) for business in
+        localities = [self._serialize_cities(city) for city in
             UsaCity.objects.filter(name__contains = query)[offset:offset+limit]
         ]
 
         return JsonResponse({"success": True, "data": localities})
 
 
-    def _serialize_cities(self, business):
-        business_dict = model_to_dict(business)
-        business_dict['locality'] = business.locality
-        return business_dict
+    def _serialize_cities(self, city):
+        city_dict = model_to_dict(city)
+        city_dict['locality'] = city.locality
+        return city_dict

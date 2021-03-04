@@ -137,7 +137,10 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <input class="form-control form-control-dark w-100" type="text" id="businessSearchInput" placeholder="Business" aria-label="Business">
-  <input class="form-control form-control-dark w-100" type="text" id="localitySearchInput" placeholder="Locality, State" aria-label="Locality">
+  <input class="form-control form-control-dark w-100" type="text" list="localities" id="localitySearchInput" placeholder="Locality, State" aria-label="Locality" oninput="getLocalityListOnchange(this)" onchange="getBusinessListOnchange(this)">
+  <datalist id="localities">
+
+  </datalist>
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
       <a class="nav-link" href="/logout">Log out</a>
@@ -155,111 +158,123 @@
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-        <div class="row" id="cardContainer">
+        <div class="row" id="businessCardContainer"></div>
 
-        <div class="card col-4 my-3 mx-3" style="width: 15rem;">
-          <img src="https://afs.googleusercontent.com/yp/icon-100.png" class="card-img-top" alt="Business Icon">
-          <div class="card-body">
-            <h5 class="card-title">Business Name</h5>
-            <p class="card-text"><a href="">website</a></p>
-            <h6 class="card-text">(555) 323-0000</h6>
-            <p class="card-text">
-              <div>1430 Buttle Street</div>
-              <div>Redding, CA 96001</div>
-            </p>
-          </div>
-        </div>
-
-        <div class="card col-4 my-3 mx-3" style="width: 15rem;">
-          <img src="https://afs.googleusercontent.com/yp/icon-100.png" class="card-img-top" alt="Business Icon">
-          <div class="card-body">
-            <h5 class="card-title">Business Name</h5>
-            <p class="card-text"><a href="">website</a></p>
-            <h6 class="card-text">(555) 323-0000</h6>
-            <p class="card-text">
-              <div>1430 Buttle Street</div>
-              <div>Redding, CA 96001</div>
-            </p>
-          </div>
-        </div>
-
-        <div class="card col-4 my-3 mx-3" style="width: 15rem;">
-          <img src="https://afs.googleusercontent.com/yp/icon-100.png" class="card-img-top" alt="Business Icon">
-          <div class="card-body">
-            <h5 class="card-title">Business Name</h5>
-            <p class="card-text"><a href="">website</a></p>
-            <h6 class="card-text">(555) 323-0000</h6>
-            <p class="card-text">
-              <div>1430 Buttle Street</div>
-              <div>Redding, CA 96001</div>
-            </p>
-          </div>
-        </div>
-
-        <div class="card col-4 my-3 mx-3" style="width: 15rem;">
-          <img src="https://afs.googleusercontent.com/yp/icon-100.png" class="card-img-top" alt="Business Icon">
-          <div class="card-body">
-            <h5 class="card-title">Business Name</h5>
-            <p class="card-text"><a href="">website</a></p>
-            <h6 class="card-text">(555) 323-0000</h6>
-            <p class="card-text">
-              <div>1430 Buttle Street</div>
-              <div>Redding, CA 96001</div>
-            </p>
-          </div>
-        </div>
-
-        <div class="card col-4 my-3 mx-3" style="width: 15rem;">
-          <img src="https://afs.googleusercontent.com/yp/icon-100.png" class="card-img-top" alt="Business Icon">
-          <div class="card-body">
-            <h5 class="card-title">Business Name</h5>
-            <p class="card-text"><a href="">website</a></p>
-            <h6 class="card-text">(555) 323-0000</h6>
-            <p class="card-text">
-              <div>1430 Buttle Street</div>
-              <div>Redding, CA 96001</div>
-            </p>
-          </div>
-        </div>
-
-        <div class="card col-4 my-3 mx-3" style="width: 15rem;">
-          <img src="https://afs.googleusercontent.com/yp/icon-100.png" class="card-img-top" alt="Business Icon">
-          <div class="card-body">
-            <h5 class="card-title">Business Name</h5>
-            <p class="card-text"><a href="">website</a></p>
-            <h6 class="card-text">(555) 323-0000</h6>
-            <p class="card-text">
-              <div>1430 Buttle Street</div>
-              <div>Redding, CA 96001</div>
-            </p>
-          </div>
-        </div>
-
-        <div class="card col-4 my-3 mx-3" style="width: 15rem;">
-          <img src="https://afs.googleusercontent.com/yp/icon-100.png" class="card-img-top" alt="Business Icon">
-          <div class="card-body">
-            <h5 class="card-title">Business Name</h5>
-            <h6 class="card-text">(555) 323-0000</h6>
-            <p class="card-text">
-              <div>1430 Buttle Street</div>
-              <div>Redding, CA 96001</div>
-            </p>
-          </div>
-        </div>
-        </div>
-
+      </div>
+      <div class="text-center my-3">
+        <button class="btn btn-secondary mx-auto" onclick="loadMoreBusinesses(this)"> &darr; Load More &darr;</button>
       </div>
     </main>
   </div>
 </div>
 
 
-    <script src="/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous">
     </script>
 
     <script>
+      var localityLimit = 10;
+      var localityOffset = 0;
+      var localityQuery = "";
+      var localityList = [];
+
+      var businessLimit = 10;
+      var businessOffset = 0;
+      var businessQuery = '';
+      var businessList = [];
+
+      const getLocalityList = (limit, offset, query) => {
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState === 4) {
+            if (this.status === 200) {
+              let response = JSON.parse(this.responseText);
+              localityList = response['data'];
+              localities = document.querySelector('#localities');
+              localities.innerHTML = '';
+              localitiesDataList = localityList.map((locality) => {
+                var option = document.createElement('option');
+                option.innerHTML = locality.locality;
+                option.setAttribute('data-id', locality.id);
+                localities.appendChild(option);
+              })
+
+            } else {
+              var option = document.createElement('option');
+              option.innerHTML = 'Could Not Load Data ...'
+              option['data-value'] = 0;
+              localities.appendChild(option);
+            }
+          }
+        }
+        // get locality list
+        xhttp.open('get', `/localities?query=${query}&offset=${offset}&limit=${limit}`, true);
+        xhttp.send();
+      }
+
+
+      const getBusinessList = (limit, offset, locality, query) => {
+        businessList = [];
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState === 4) {
+            if (this.status === 200) {
+              let response = JSON.parse(this.responseText);
+              businessList = response['data'];
+              var businessCardContainer = document.querySelector('#businessCardContainer');
+              businessCardList = businessList.map((business) => {
+                businessCardContainer.innerHTML += `
+                <div class="card col-4 my-3 mx-3" style="width: 15rem;">
+                  <img src="https://afs.googleusercontent.com/yp/icon-100.png" class="card-img-top" alt="Business Icon">
+                  <div class="card-body">
+                    <h5 class="card-title">${business.name}</h5>
+                    <p class="card-text"><a href="${business.website}">website</a></p>
+                    <h6 class="card-text">${business.phone}</h6>
+                    <p class="card-text">
+                      <div>${business.street_address}</div>
+                      <div>${business.locality}</div>
+                    </p>
+                  </div>
+                </div>
+                `;
+              })
+              businessOffset += businessLimit;
+            } else {
+              console.log('Cound not fetch Data');
+            }
+          }
+        }
+        // get locality list
+        xhttp.open('get', `/search?query=${query}&locality=${locality}&offset=${offset}&limit=${limit}`, true);
+        xhttp.send();
+      }
+
+      const getLocalityListOnchange = (contextInput) => {
+        if (contextInput.value.length >= 2) {
+          getLocalityList(localityLimit, localityOffset, contextInput.value);
+        }
+      }
+
+      const getBusinessListOnchange = (contextInput) => {
+        let locality = contextInput.value;
+        businessOffset = 0;
+        document.querySelector('#businessCardContainer').innerHTML = '';
+        getBusinessList(localityLimit, localityOffset, locality, businessQuery);
+      }
+
+      const loadMoreBusinesses = (contextBtn) => {
+        let locality = document.querySelector('#localitySearchInput').value;
+        console.log(locality)
+        getBusinessList(businessLimit, businessOffset, locality, businessQuery);
+
+      }
+
+      getLocalityList(localityLimit, localityOffset, localityQuery);
+
+      // clean the card container
+      document.querySelector('#businessCardContainer').innerHTML = '';
+      getBusinessList(localityLimit, localityOffset, localityQuery, '');
 
     </script>
   </body>
