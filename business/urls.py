@@ -12,4 +12,4 @@ urlpatterns = [
     path('dashboard', views.DashboardView.as_view(), name='dashboard'),
     path('search', views.SearchView.as_view(), name='search'),
     path('localities', views.LocalityView.as_view(), name='localities'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
